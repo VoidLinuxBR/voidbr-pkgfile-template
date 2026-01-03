@@ -1,0 +1,1 @@
+# voidbr-pkgbuild-template
