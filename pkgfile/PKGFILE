@@ -67,7 +67,7 @@ package() {
 	local dirs=("usr" "etc" "opt")
 	for dir in "${dirs[@]}"; do
 		if [ -d "${srcdir}/${pkgname}/${dir}" ]; then
-			cp -a "${srcdir}/${pkgname}/${dir}" "${pkgdir}/usr/share/${pkgname}/"
+			cp -a "${srcdir}/${pkgname}/${dir}" "${pkgdir}/"
 		fi
 	done
 
