@@ -33,8 +33,8 @@
 ##############################################################################
 # Maintainer: Vilmar Catafesta <vcatafesta@gmail.com>
 
-pkgname=chili-pkgname
-pkgdesc="Package template for Chililinux"
+pkgname=voidbr-pkgname
+pkgdesc="Package template for VoidLinuxBR"
 pkgver=$(date +%Y%m%d)
 pkgrel=$(date +%H%M)
 arch=('any')
@@ -54,23 +54,6 @@ elif [ -e "pkgbuild.install" ]; then
 fi
 
 package() {
-	cd "${srcdir}/${pkgname}"
-	#	# Instala todos os arquivos em /usr/share/${pkgname} no momento da criação do pacote
-	#	install -dm755 "${pkgdir}/usr/share/${pkgname}"
-	#	# Lista de pacotes instalados automaticamente via post_install
-	#	# (não confundir com optdepends do PKGBUILD)
-	#	if ((${#post_install_pkgs[@]})); then
-	#		printf "%s\n" "${post_install_pkgs[@]}" >"${pkgdir}/usr/share/${pkgname}/optdepends"
-	#	fi
-
-	# Copiar a estrutura de /etc, /usr e /opt para /usr/share/${pkgname}
-	local dirs=("usr" "etc" "opt")
-	for dir in "${dirs[@]}"; do
-		if [ -d "${srcdir}/${pkgname}/${dir}" ]; then
-			cp -a "${srcdir}/${pkgname}/${dir}" "${pkgdir}/"
-		fi
-	done
-
 	# Verify default folder
 	if [ -d "${srcdir}/${pkgname}/${pkgname}" ]; then
 		InternalDir="${srcdir}/${pkgname}/${pkgname}"
@@ -78,8 +61,9 @@ package() {
 		InternalDir="${srcdir}/${pkgname}"
 	fi
 
+	cd "${srcdir}/${pkgname}"
 	# Copiar a estrutura de /etc, /usr e /opt para /
-	local dirs=("usr" "etc" "opt")
+	local dirs=("boot" "etc" "opt" "usr")
 	for dir in "${dirs[@]}"; do
 		if [ -d "${InternalDir}/${dir}" ]; then
 			cp -a "${InternalDir}/${dir}" "${pkgdir}/"
