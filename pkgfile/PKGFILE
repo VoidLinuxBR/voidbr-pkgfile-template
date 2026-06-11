@@ -49,3 +49,21 @@ package() {
 		install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
 	fi
 }
+
+pre_install() {
+  log "Starting installation"
+}
+
+post_install() {
+  log "Ending installation"
+}
+
+pre_upgrade() {
+  log "Starting upgrading"
+}
+
+post_upgrade() {
+  log "Ending upgrading"
+}
+
+
