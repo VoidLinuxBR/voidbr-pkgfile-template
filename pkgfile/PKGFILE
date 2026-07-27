@@ -14,6 +14,7 @@ source=("git+${url}.git")
 md5sums=('SKIP')
 makedepends=()
 depends=()
+backup=()
 
 # Automatically detect and use the correct install file
 if [ -e "${pkgname}.install" ]; then
