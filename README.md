@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🔵 voidbr-pkgfile
+# 🔵 voidbr-pkgfile-template
 
 **Template for VoidBR pkgmake/pkgfile packages**
 
