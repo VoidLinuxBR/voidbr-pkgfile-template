@@ -1,12 +1,12 @@
 # Maintainer: Vilmar Catafesta <vcatafesta@gmail.com>
 
 pkgname=voidbr-pkgname
-pkgdesc="Package template for VoidLinuxBR"
+pkgdesc="Package template for VoidBR"
 pkgver=$(date +%Y%m%d)
 pkgrel=$(date +%H%M)
-provides=()               # "eu SOU o $pkgname pkg1, pra quem depender deles"
-replaces=()               # "remove o pkg1 pkg2 antigo automaticamente quando eu instalar"
-conflicts=()              # "nunca me deixe coexistir com o pkg1 pkg2 original"
+provides=()  # "eu SOU o $pkgname pkg1, pra quem depender deles"
+replaces=()  # "remove o pkg1 pkg2 antigo automaticamente quando eu instalar"
+conflicts=() # "nunca me deixe coexistir com o pkg1 pkg2 original"
 arch=('any')
 license=('MIT')
 #url="ssh://git@github.com/voidlinuxbr/${pkgname}"
@@ -26,12 +26,12 @@ fi
 
 package() {
 	# Verify default folder
-  if [ -d "${srcdir}/${pkgname}/${pkgname}" ]; then
+	if [ -d "${srcdir}/${pkgname}/${pkgname}" ]; then
 		InternalDir="${srcdir}/${pkgname}/${pkgname}"
-  elif [ -d "${srcdir}/${pkgname}" ]; then
+	elif [ -d "${srcdir}/${pkgname}" ]; then
 		InternalDir="${srcdir}/${pkgname}"
 	else
-    #local
+		#local
 		InternalDir="${WORKDIR}"
 	fi
 
@@ -45,14 +45,10 @@ package() {
 	done
 
 	# Install license file if present
-	if [ -f "LICENSE" ]; then
-		install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-	fi
-
+	[ -f "LICENSE" ] && install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 	# Install documentation if present
-	if [ -f "README.md" ]; then
-		install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
-	fi
+	[ -f "README.md" ] && install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+
 }
 
 pre_install() {
@@ -60,7 +56,21 @@ pre_install() {
 }
 
 post_install() {
-	log "Finalizando instalação"
+	if [ "${update:-}" = "yes" ]; then
+		log "Finalizando upgrade"
+	else
+		log "Finalizando instalação"
+	fi
+
+	if [ -n "${MKISO_BUILD:-}" ]; then
+		echo "${YELLOW}[-]${RESET} Build de ISO detectado (MKISO_BUILD) — pulando."
+		return 0
+	fi
+
+	if [ -z "${VOIDBR_INSTALLER:-}" ]; then
+		:
+	fi
+
 }
 
 pre_upgrade() {
@@ -68,5 +78,5 @@ pre_upgrade() {
 }
 
 post_upgrade() {
-	log "Finalizando upgrade"
+	post_install
 }
